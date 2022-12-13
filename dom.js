@@ -65,19 +65,70 @@
 // var thirdItem=document.querySelector('.list-group-item:nth-child(3)');
 // thirdItem.style.visibility='hidden';
 
-var titles=document.querySelectorAll('.title');
-console.log(titles);
-titles[0].textContent="Hello";
-var odd=document.querySelectorAll('li:nth-child(odd)');
-var even=document.querySelectorAll('li:nth-child(even)');
-for(var i=0;i<odd.length;i++)
-{
-    odd[i].style.backgroundColor='green';
-    even[i].style.backgroundColor='#ccc';
-}
-var items=document.querySelectorAll('.items');
+// var titles=document.querySelectorAll('.title');
+// console.log(titles);
+// titles[0].textContent="Hello";
+// var odd=document.querySelectorAll('li:nth-child(odd)');
+// var even=document.querySelectorAll('li:nth-child(even)');
+// for(var i=0;i<odd.length;i++)
+// {
+//     odd[i].style.backgroundColor='green';
+//     even[i].style.backgroundColor='#ccc';
+// }
+// var items=document.querySelectorAll('.items');
 //for(var j=0;j<items.length;j++)
 //{
   //  if(j==1)
     //    items[j].style.color='green';
 //}
+var itemList=document.querySelector('#items');
+console.log(itemList);
+//PARENT NODE
+console.log(itemList.parentNode);
+itemList.parentNode.style.backgroundColor='#f4f4f4';
+//PARENT ELEMENT
+console.log(itemList.parentElement);
+itemList.parentElement.style.color='red';
+// //CHILD NODES
+console.log(itemList.childNodes);
+console.log(itemList.children);
+console.log(itemList.children[1]);
+itemList.children[1].style.backgroundColor='yellow';
+// //FIRST CHILD
+console.log(itemList.firstChild);
+// //FIRST ELEMENT CHILD
+console.log(itemList.firstElementChild);
+itemList.firstElementChild.textContent='hello';
+// //LAST CHILD    
+console.log(itemList.lastChild);
+// //LAST ELEMENT CHILD
+console.log(itemList.lastElementChild);
+itemList.lastElementChild.textContent='hello 1';
+// //NEXT SIBLING
+console.log(itemList.nextSibling);
+// //NEXT ELEMENT SIBLING
+console.log(itemList.nextElementSibling);
+// //PREVIOUS SIBLING
+console.log(itemList.previousSibling);
+// //PREVIOUS ELEMENT SIBLING
+console.log(itemList.previousElementSibling);
+// //CREATE ELEMENT
+//Create a div
+var newDiv=document.createElement('div');
+newDiv.className='Hello';
+newDiv.id='Hello 1';
+// //SET ATTRIBUTE
+newDiv.setAttribute('title','Hello Div');
+//CREATE A TEXTNODE
+var newDivText=document.createTextNode('HEllo');
+// //ADD TEXT TO DIV...APPEND CHILD    
+newDiv.appendChild(newDivText);
+var container=document.querySelector('header .container');
+var h1=document.querySelector('header h1');
+console.log(newDiv);
+newDiv.style.fontSize='30px';
+container.insertBefore(newDiv,h1);
+var parentNode=document.getElementById('items');
+console.log(parentNode);
+parentNode.innerHTML='<li>HEllo</li>'+parentNode.innerHTML
+
