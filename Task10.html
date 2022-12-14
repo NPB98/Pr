@@ -4,8 +4,9 @@
             <label> Name</label>
             <input type="text" name="username" required><br>
             Email-Id<input type="text" name="emailId" required><br>
-            <button>Submit</button>
+            <button>Submit</button><br>
         </form>
+        <ul id='listOfUsers'></ul>
         <script>
             function saveToLocalStorage(e)
             {
@@ -14,10 +15,16 @@
                     name:event.target.username.value,
                     email:event.target.emailId.value
                 };
-                let myObj_serialized=JSON.stringify(myObj);
-                console.log(myObj_serialized);
-                localStorage.setItem("myObj",myObj_serialized);
+                localStorage.setItem(myObj.email,JSON.stringify(myObj));
+                showNewUsersOnScreen(myObj)
             }
+            function showNewUsersOnScreen(user)
+            {
+                const parentNode=document.getElementById('listOfUsers');
+                const childHTML=`<li> ${user.name}-${user.email} </li>`;
+                parentNode.innerHTML=parentNode.innerHTML+childHTML;
+            }
+            
         </script>
     </head>
 </html>
