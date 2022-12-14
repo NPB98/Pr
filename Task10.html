@@ -10,10 +10,14 @@
             function saveToLocalStorage(e)
             {
                 event.preventDefault();
-                var name=event.target.username.value;
-                var email=event.target.emailId.value;
-                localStorage.setItem('name',name);
-                localStorage.setItem('email',email);
+                let myObj={
+                    name:event.target.username.value,
+                    email:event.target.emailId.value
+                };
+                let myObj_serialized=JSON.stringify(myObj);
+                console.log(myObj_serialized);
+                localStorage.setItem("myObj",myObj_serialized);
+
             }
         </script>
     </head>
