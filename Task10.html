@@ -18,12 +18,57 @@
                 localStorage.setItem(myObj.email,JSON.stringify(myObj));
                 showNewUsersOnScreen(myObj)
             }
+            
+            
+            window.addEventListener("DOMContentLoaded", () => {
+                const localStorageObj = localStorage;
+                const localstoragekeys  = Object.keys(localStorageObj)
+
+                for(var i =0; i< localstoragekeys.length; i++){
+                    const key = localstoragekeys[i]
+                    const userDetailsString = localStorageObj[key];
+                    const userDetailsObj = JSON.parse(userDetailsString);
+                    showNewUsersOnScreen(userDetailsObj)
+                }
+            })
             function showNewUsersOnScreen(user)
             {
+                if(localStorage.getItem(user.email!=null))
+                {
+                    removeUserFromScreen(user.email);
+                }
                 const parentNode=document.getElementById('listOfUsers');
-                const childHTML=`<li> ${user.name}-${user.email} </li>`;
+                const childHTML=`<li id=${user.email}> ${user.name} - ${user.email}
+                    <button onclick=deleteUser('${user.email}')> Delete User </button>
+                    <button onclick=editUserDetails('${user.email}','${user.name}')>Edit User </button>
+                 </li>`
                 parentNode.innerHTML=parentNode.innerHTML+childHTML;
+                
             }
+            function deleteUser(emailId)
+            {
+                console.log(emailId);
+                removeUserFromScreen(emailId);
+                localStorage.removeItem(emailId);
+                
+            }
+            function removeUserFromScreen(emailId)
+            {
+                const parentNode=document.getElementById('listOfUsers');
+                const childNodeToBeDeleted=document.getElementById(emailId);
+                
+                if(childNodeToBeDeleted)
+                {
+                parentNode.removeChild(childNodeToBeDeleted);
+                }
+            }
+            function editUserDetails(emailId, name){
+                emailId=document.getElementById('email').value ;
+                console.log(emailId);
+                name=document.getElementById('username').value;
+                console.log(name);
+                deleteUser(emailId);
+             }
             
         </script>
     </head>
