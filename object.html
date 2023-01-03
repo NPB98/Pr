@@ -7,6 +7,7 @@
             {title:'Post one',body:'This is post one',createdAt:new Date().getTime()},
             {title:'Post two',body:'This is post two',createdAt:new Date().getTime()}
             ];
+            
             const user={
                   name:'John',
                   lastActivityTime:'2nd jan'
@@ -24,7 +25,34 @@
                   },1000);
                   
             }
-            function deletePost(){
+            getPosts();
+            let del;
+            const posting=async()=>{
+                  const deleting=new Promise((resolve,reject)=>
+                  setTimeout(()=>{
+                        if(posts.length>0){
+                              const lastElement=posts.pop();
+                              console.log(lastElement);
+                              resolve(lastElement.title);
+                        }       
+                        else{
+                              reject('Array is Empty now');
+                        }  
+                  },1000)); 
+                  const creating=new Promise((resolve,reject)=>{
+                        setTimeout(()=>{
+                              posts.push({title:'Post four', body:'This is post four'});
+                                    resolve('Post');
+                        },2000);
+                  });
+                  let create=await creating;
+                  console.log(`${create} done`);
+                  del=await deleting;
+                  console.log(`${del} done`);
+                  return create;
+            }
+            posting().then((message)=>console.log(`${message}`));
+            /*function deletePost(){
                   return new Promise((resolve,reject)=>
                   setTimeout(()=>{
                         if(posts.length>0){
@@ -35,8 +63,8 @@
                               reject('Array is Empty now');
                         }  
                   },1000));               
-            }
-            function createPost(post,callback){
+            }*/
+            /*function createPost(post,callback){
                   return new Promise((resolve,reject)=>{
                         setTimeout(()=>{
                               posts.push({...post,createdAt:new Date().getTime()});
@@ -51,9 +79,10 @@
                         },2000);
                   });
                   
-            }
-            getPosts();
-            createPost({title:'Post four', body:'This is post four'})
+            }*/
+            
+
+            /*createPost({title:'Post four', body:'This is post four'})
             .then(()=>{
                   getPosts();
                   setTimeout(()=>{
