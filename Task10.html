@@ -2,21 +2,44 @@
     <head>
         <form onsubmit="saveToLocalStorage(event)">
             <label> Name</label>
-            <input type="text" name="username" required><br>
-            Email-Id<input type="text" name="emailId" required><br>
+            <input type="text" name="username" required>
+            Email-Id<input type="text" name="emailId" required>
             <button>Submit</button><br>
         </form>
         <ul id='listOfUsers'></ul>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
         <script>
+            /*axios.get("https://crudcrud.com/api/7c7553665cb140a2b92172bb17e5a067/appointmentDate")
+            .then((response)=>{
+                
+                let arr=(response.data);
+                let vallue;
+                for(let i=0;i<arr.length;i++)
+                {
+                    vallue=arr[i];
+                    document.body.innerHTML=document.body.innerHTML+vallue; 
+                }
+            })
+            .catch((err)=>console.log(err));*/
             function saveToLocalStorage(e)
             {
                 event.preventDefault();
                 let myObj={
                     name:event.target.username.value,
-                    email:event.target.emailId.value
+                    email:event.target.emailId.value,
                 };
-                localStorage.setItem(myObj.email,JSON.stringify(myObj));
-                showNewUsersOnScreen(myObj)
+                axios.post("https://crudcrud.com/api/7c7553665cb140a2b92172bb17e5a067/appointmentDate",myObj)
+                .then((response)=>{
+                    showNewUsersOnScreen(response.data);
+                    //console.log(response)
+                })
+                .catch((err)=>{
+                    document.body.innerHTML=document.body.innerHTML+"<h4>Something went wrong</h4>";
+                    //console.log(err)
+                });
+                
+                //localStorage.setItem(myObj.email,JSON.stringify(myObj));
+                //showNewUsersOnScreen(myObj)
             }
             
             
