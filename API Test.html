@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title>Item Lister</title>
+</head>
+<body>
+    <div class="container">
+      <h1>Product Details</h1>
+    </div>
+  <div class="container">
+    <h2>Add Product Details</h2>
+    <form class="form-inline" id="addForm">
+        <label for="Product amonunt" class="form-label">Product Amount :</label>
+            <input type="Product amount" id="amount" class="form" required>
+        <label for="Product Description" class="form-label">Product Description :</label> 
+        <input type="Product Description" id="description" class="form" required>
+      <input type="submit" class="btn" value="Add Product">
+    </form>
+    <h2 class="title">Products:</h2>
+    <ul id="products" class="list-group"></ul>
+    <h3 id="total">Total Worth Of Products:</h3>
+   </div>
+  </div>
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+  <script src=productLister.js></script>
+  
+  
+</body>
+</html>
