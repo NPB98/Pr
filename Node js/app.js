@@ -6,6 +6,7 @@ const path=require('path');
 
 const adminRoutes=require('./routes/admin.js');
  const shopRoutes=require('./routes/shop.js');
+ const errorController=require('./controller/404.js');
 //const routes=require('./routes');
 //const server=http.createServer(app);
 // app.use((req,res,next)=>{
@@ -14,13 +15,11 @@ const adminRoutes=require('./routes/admin.js');
 // })
 
  app.use(bodyParser.urlencoded({extended:false}));
-app.use(express.static(path.join(__dirname,'public')));
+//app.use(express.static(path.join(__dirname,'public')));
+
  app.use('/admin',adminRoutes);
  app.use(shopRoutes);
-  app.use('/',(req,res,next)=>{
-   //console.log('404');
-       res.sendFile(path.join(__dirname,'views','404.html'));
-   })
+  app.use('/',errorController.get404Page);
    
 
 //console.log(routes.someText);
