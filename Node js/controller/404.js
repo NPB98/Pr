@@ -7,3 +7,4 @@ exports.get404Page=((req,res,next)=>{
     //console.log('404');
         res.sendFile(path.join(rootDir,'views','404.html'));
     });
+    

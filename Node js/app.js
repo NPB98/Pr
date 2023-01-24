@@ -3,6 +3,7 @@ const express=require('express');
 const bodyParser= require('body-parser');
 const app=express();
 const path=require('path');
+const fs=require('fs');
 
 const adminRoutes=require('./routes/admin.js');
  const shopRoutes=require('./routes/shop.js');
@@ -15,12 +16,12 @@ const adminRoutes=require('./routes/admin.js');
 // })
 
  app.use(bodyParser.urlencoded({extended:false}));
-//app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'public')));
 
  app.use('/admin',adminRoutes);
  app.use(shopRoutes);
   app.use('/',errorController.get404Page);
-   
 
 //console.log(routes.someText);
 app.listen(4000);
+

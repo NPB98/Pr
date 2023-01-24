@@ -11,14 +11,13 @@ const express = require('express');
 //const path=require('path');
 const router = express.Router();
 //const rootDir=require('../util/path');
-const products=require('../controller/product');
+const productsController=require('../controller/product');
 const contactHistory=require('../controller/contactDetails');
-router.get('/', products.showProducts);
+router.get('/', productsController.showProducts);
 router.get('/contactus', contactHistory.contactDetails);
 router.post('/success',contactHistory.successForm);
 
 module.exports = router;
-
 // const path = require('path');
 
 // const express = require('express');

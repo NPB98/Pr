@@ -20,11 +20,11 @@ const express = require('express');
 //const path=require('path');
 const router = express.Router();
 //const rootDir=require('../util/path');
-const products=require('../controller/product');
-router.get('/add-product', products.getAddProduct);
+const productController=require('../controller/product');
 
-router.post('/add-product', products.postProduct);
+router.get('/add-product', productController.getAddProduct);
 
+router.post('/add-product', productController.postProduct);
 
 module.exports = router;
 

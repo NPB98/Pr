@@ -8,3 +8,4 @@ exports.contactDetails=((req, res, next) => {
   exports.successForm= ((req,res,next)=>{
     res.send('<h3>Form successfully filled</h3>')
   })
+  
