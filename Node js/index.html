@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <title>Book A Call</title>
+    </head>
+    <body>
+        <h2 style='text-align:center;color:orange'>Book a call</h2>
+        <p style='text-align:center;'>Book an appointment and our employee will call you</p>
+        <hr>
+            <form id="addForm">
+                <label for='name'>Name</label><br>
+                <input type='text' id='name'size="100px"><br>
+                <label for='email'>Email</label><br>
+                <input type='text' id='email' size='100px'><br>
+                <label for='phone'>Phone</label><br>
+                <input type='text' id='phone' size='100px'><br><br>
+                <input type='submit' value='Submit' style='text-align:center;background-color:orange;width:750px;'>
+            </form>
+            <br><ul id="itemList"></ul>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+            <script src="bookApp.js"></script>
+    </body>
+<html>

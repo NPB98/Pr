@@ -1,27 +1,22 @@
-const http=require('http');
-const express=require('express');
-const bodyParser= require('body-parser');
-const app=express();
-const path=require('path');
-const fs=require('fs');
+const express = require('express');
+const app = express();
 
-const adminRoutes=require('./routes/admin.js');
- const shopRoutes=require('./routes/shop.js');
- const errorController=require('./controller/404.js');
-//const routes=require('./routes');
-//const server=http.createServer(app);
-// app.use((req,res,next)=>{
-//     console.log('In the middleware');
-//     next();
-// })
+const bodyParser = require('body-parser');
 
- app.use(bodyParser.urlencoded({extended:false}));
-app.use(express.static(path.join(__dirname,'public')));
+const sequelize = require('./util/database');
 
- app.use('/admin',adminRoutes);
- app.use(shopRoutes);
-  app.use('/',errorController.get404Page);
+const cors = require('cors');
 
-//console.log(routes.someText);
-app.listen(4000);
+const User = require('./models/users');
 
+const adminRoute = require('./routes/admin');
+
+app.use(cors());
+
+app.use(bodyParser.json());
+
+app.use('/',adminRoute);
+
+sequelize.sync()
+.then(result => app.listen(4000))
+.catch(err => console.log(err));
