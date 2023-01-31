@@ -1,24 +1,24 @@
-const User=require('../models/users');
+const Expense=require('../models/expenses');
 
-exports.getUsers=(req,res,next)=>{
-    User.findAll()
-    .then(users => {
+exports.getExpenses=(req,res,next)=>{
+    Expense.findAll()
+    .then(expenses => {
       //console.log(users);
-       res.status(200).json(users);
+       res.status(200).json(expenses);
     })
     .catch(err => console.log(err));
  };
 
- exports.deleteUser = (req,res,next)=>{
-   //console.log(req);
-    const id = req.params.userId;
+ exports.deleteExpense = (req,res,next)=>{
+   console.log(req);
+    const id = req.params.expenseId;
     //console.log(id)
-    User.findByPk(id)
-    .then(user => {
+    Expense.findByPk(id)
+    .then(expense => {
       //console.log(user);
-      return user.destroy();
+      return expense.destroy();
     })
-    .then(result => {
+    .then(response => {
         res.status(202).json('Successfully Deleted');
     })
     .catch((err)=>{
@@ -26,17 +26,18 @@ exports.getUsers=(req,res,next)=>{
     })
  };
 
- exports.addUser = (req,res,next)=>{
-    const name = req.body.name;
-    const email = req.body.email;
-    const phone = req.body.phone;
-    User.create({
-     name:name,
-     email:email,
-     phone:phone
+ exports.addExpense = (req,res,next)=>{
+    const amount = req.body.amount;
+    const description = req.body.description;
+    const category = req.body.category;
+    console.log(amount);
+    Expense.create({
+     amount:amount,
+     description:description,
+     category:category
   })
-  .then((result)=>{
-      res.status(201).json(result);
+  .then((response)=>{
+      res.status(201).json(response);
   })
   .catch((err)=> console.log(err));
  };

@@ -7,9 +7,9 @@ const sequelize = require('./util/database');
 
 const cors = require('cors');
 
-const User = require('./models/users');
+const User = require('./models/expenses');
 
-const adminRoute = require('./routes/admin');
+const adminRoute = require('./routes/expense');
 
 app.use(cors());
 
