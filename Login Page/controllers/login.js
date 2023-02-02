@@ -16,6 +16,6 @@ exports.addUser = (req,res,next)=>{
       return res.status(201).json(response);
   })
   .catch((err)=> {
-    return res.status(500).json(err);
+    return res.status(500).json({err:"User Already Exists"});
   })
  };
