@@ -12,7 +12,8 @@ var email=document.getElementById('email');
       .then((response)=>{
         if(response.status===200){
           //console.log(response.data);
-            alert(response.data.message);
+            window.location.href="file:///E:/Little/Sharpener/Expense%20Tracker/login.html";
+            //alert(response.data.message);
           }
       })
       .catch((err)=>{
