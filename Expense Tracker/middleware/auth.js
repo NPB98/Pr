@@ -4,7 +4,7 @@ const jwt=require('jsonwebtoken');
  const authenticate=(req,res,next)=>{
     try{
         const token=req.header('Authorization');
-        console.log(token);
+        //console.log(token);
         const user=jwt.verify(token,'secretkey');
         //console.log(userId.userId);
         User.findByPk(user.userId)

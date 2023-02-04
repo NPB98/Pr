@@ -2,7 +2,10 @@ var amt=document.getElementById('amount');
 var desc=document.getElementById('description');
 var cate=document.getElementById('category');
 var itemlist=document.getElementById('items');
-document.addEventListener("submit",addExpense)
+var form=document.getElementById('addForm');
+form.addEventListener("submit",addExpense)
+//premium.addEventListener("submit",window.location.href='https://github.com/NPB98/Pr/commits/main');
+
 
 function addExpense(e){
     e.preventDefault();
@@ -50,5 +53,29 @@ function deleteExpense(expenseId){
             parentNode.removeChild(childNodeToBeDeleted)
         }
     }).catch((err)=>console.log(err));
+}
+
+document.getElementById('rzp-button1').onclick=async function(e){
+    const token=localStorage.getItem('token');
+    const response=await axios.get('https://localhost:4000/premiumMembership',{headers:{'Authorization':token}});
+    var options=
+    {
+        "key": response.data.key_id,
+        "order_id": response.data.order_id,
+        "handler": async function(response){
+            await axios.post('http://localhost:4000/updateTransactionStatus',{
+                order_id: options.order_id,
+                payment_id: response.razorpay_payment_id,
+            },{headers:{'Authorization':token}})
+            alert('You are a premium user now')
+        }
+    };
+    const rzp1=new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+    rzp1.on('payment.failed',function(response){
+        console.log(response);
+        alert('Something went wrong');
+    });
 }
 

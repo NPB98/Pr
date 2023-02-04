@@ -35,9 +35,12 @@ function generateAccessToken(id,name){
   try{
   const email=req.body.email;
   const passWord=req.body.password;
+  //console.log(email);
   const user=await User.findAll({where:{email}})
+  console.log(user);
     if(user.length>0){
       bcrypt.compare(passWord,user[0].password,(err,response)=>{
+        console.log(response);
         if(err){
           res.status(500).json({success:false,message:"Something went wrong"});
         }
