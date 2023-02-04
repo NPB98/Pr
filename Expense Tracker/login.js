@@ -12,8 +12,10 @@ var email=document.getElementById('email');
       .then((response)=>{
         if(response.status===200){
           //console.log(response.data);
-            window.location.href="file:///E:/Little/Sharpener/Expense%20Tracker/login.html";
-            //alert(response.data.message);
+          alert(response.data.message);
+          localStorage.setItem('token',response.data.token);
+          window.location.href="file:///E:/Little/Sharpener/Expense%20Tracker/expenseTracker.html";
+            
           }
       })
       .catch((err)=>{

@@ -1,9 +1,9 @@
 const Expense=require('../models/expenses');
 
 exports.getExpenses=(req,res,next)=>{
-    Expense.findAll()
-    .then(expenses => {
-      //console.log(users);
+    //Expense.findAll({where:{userId:req.user.id}})
+    req.user.getExpenses().then(expenses => {
+      console.log(expenses);
        res.status(200).json(expenses);
     })
     .catch(err => console.log(err));
@@ -30,11 +30,12 @@ exports.getExpenses=(req,res,next)=>{
     const amount = req.body.amount;
     const description = req.body.description;
     const category = req.body.category;
-    console.log(amount);
+    console.log(req.user.id);
     Expense.create({
      amount:amount,
      description:description,
-     category:category
+     category:category,
+     userId:req.user.id
   })
   .then((response)=>{
       res.status(201).json(response);

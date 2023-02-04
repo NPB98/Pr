@@ -1,6 +1,7 @@
 const User=require('../models/user');
 const bcrypt=require('bcrypt');
-const { response } = require('express');
+const express = require('express');
+const jwt=require('jsonwebtoken');
 
 const addUser = (req,res,next)=>{
     const name = req.body.name;
@@ -26,6 +27,10 @@ const addUser = (req,res,next)=>{
  })
 } 
 
+function generateAccessToken(id,name){
+  return jwt.sign({userId:id,name:name},'secretkey')
+}
+
  const loginUser=async(req,res,next)=>{
   try{
   const email=req.body.email;
@@ -37,7 +42,7 @@ const addUser = (req,res,next)=>{
           res.status(500).json({success:false,message:"Something went wrong"});
         }
         if(response===true){
-          res.status(200).json({success:true, message:"User logged in successfully"});
+          res.status(200).json({success:true, message:"User logged in successfully",token:generateAccessToken(user[0].id,user[0].name)});
         }
         else{
           res.status(401).json({success:false,message:"User not authorized"});

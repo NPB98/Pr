@@ -11,14 +11,16 @@ function addExpense(e){
         description:desc.value,
         category:cate.value
     }
-    axios.post("http://localhost:4000/addExpenses",obj)
+    const token=localStorage.getItem('token');
+    axios.post("http://localhost:4000/addExpenses",obj,{headers:{'Authorization':token}})
     .then((response)=>{
         showExpensesOnScreen(obj);
     }).catch((err)=>console.log(err));
 }
 
 window.addEventListener("DOMContentLoaded",(e)=>{
-    axios.get("http://localhost:4000/Expenses")
+    const token=localStorage.getItem('token');
+    axios.get("http://localhost:4000/getExpenses",{headers:{'Authorization':token}})
     .then((response)=>{
    for(let i=0; i<response.data.length; i++){
     //console.log(response.data[i]);
@@ -30,7 +32,7 @@ window.addEventListener("DOMContentLoaded",(e)=>{
 
 function showExpensesOnScreen(item){
     const parentNode= document.getElementById('items');
-    console.log(item.id);
+    //console.log(item.id);
     const childHTML = `<li id=${item.id}> Expense Amount: ${item.amount}, Category: ${item.category}, Description: ${item.description}
                         <button onclick=deleteExpense('${item.id}')>Delete</button>
                         </li>`;
@@ -39,7 +41,8 @@ function showExpensesOnScreen(item){
 
 function deleteExpense(expenseId){
     //console.log(expenseId);
-    axios.get(`http://localhost:4000/deleteExpense/${expenseId}`)
+    const token=localStorage.getItem('token');
+    axios.get(`http://localhost:4000/deleteExpense/${expenseId}`,{headers:{'Authorization':token}})
     .then((response)=>{
         const parentNode = document.getElementById('items');
         const childNodeToBeDeleted = document.getElementById(expenseId);
