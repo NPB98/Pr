@@ -1,3 +1,5 @@
+//const jwt= require("jsonwebtoken");
+
 var amt=document.getElementById('amount');
 var desc=document.getElementById('description');
 var cate=document.getElementById('category');
@@ -21,8 +23,28 @@ function addExpense(e){
     }).catch((err)=>console.log(err));
 }
 
+function showPremiumUser(){
+    document.getElementById('rzp-button1').style.visibility='hidden';
+    document.getElementById('premium').innerHTML = 'You are premium user' ;
+}
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+
 window.addEventListener("DOMContentLoaded",(e)=>{
     const token=localStorage.getItem('token');
+    const decodedToken=parseJwt(token);
+    const isPremiumUser=decodedToken.isPremiumUser;
+    if(isPremiumUser){
+        showPremiumUser();
+        showLeaderboard();
+    }
     axios.get("http://localhost:4000/getExpenses",{headers:{'Authorization':token}})
     .then((response)=>{
    for(let i=0; i<response.data.length; i++){
@@ -55,6 +77,23 @@ function deleteExpense(expenseId){
     }).catch((err)=>console.log(err));
 }
 
+function showLeaderboard(){
+    const inputElement = document.createElement('input');
+    inputElement.type = "button";
+    inputElement.value = "Show Leaderboard";
+    inputElement.onclick = async() => {
+        const token = localStorage.getItem('token');
+       const leaderboardArray = await axios.get("http://localhost:4000/showLeaderboard", { headers: {"Authorization": token}});
+        let leaderboardElem = document.getElementById('leaderboard');
+        leaderboardElem.innerHTML += '<div class="container"><h3> LeaderBoard </h1></div>'
+
+        leaderboardArray.data.forEach((userDetails) => {
+            leaderboardElem.innerHTML += `<div class='container'><li>Name - ${userDetails.name} Total Expense-${userDetails.total_cost}</div>`
+        })
+    }
+    document.getElementById('premium').appendChild(inputElement)
+ }
+
 document.getElementById('rzp-button1').onclick=async function(e){
     const token=localStorage.getItem('token');
     console.log(token);
@@ -69,6 +108,10 @@ document.getElementById('rzp-button1').onclick=async function(e){
                 payment_id: res.razorpay_payment_id,
             },{headers:{'Authorization':token}})
             alert('You are a premium user now')
+            document.getElementById('rzp-button1').style.visibility='hidden';
+            document.getElementById('premium').innerHTML = 'You are premium user  ' ;
+            localStorage.setItem('token',res.data.token);
+            showLeaderboard();
         }
     };
     const rzp1=new Razorpay(options);

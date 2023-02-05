@@ -27,8 +27,8 @@ const addUser = (req,res,next)=>{
  })
 } 
 
-function generateAccessToken(id,name){
-  return jwt.sign({userId:id,name:name},'secretkey')
+function generateAccessToken(id,name,isPremiumUser){
+  return jwt.sign({userId:id,name:name,isPremiumUser},'secretkey')
 }
 
  const loginUser=async(req,res,next)=>{
@@ -37,15 +37,15 @@ function generateAccessToken(id,name){
   const passWord=req.body.password;
   //console.log(email);
   const user=await User.findAll({where:{email}})
-  console.log(user);
+  //console.log(user);
     if(user.length>0){
       bcrypt.compare(passWord,user[0].password,(err,response)=>{
-        console.log(response);
+        //console.log(response);
         if(err){
           res.status(500).json({success:false,message:"Something went wrong"});
         }
         if(response===true){
-          res.status(200).json({success:true, message:"User logged in successfully",token:generateAccessToken(user[0].id,user[0].name)});
+          res.status(200).json({success:true, message:"User logged in successfully",token:generateAccessToken(user[0].id,user[0].name,user[0].isPremiumUser)});
         }
         else{
           res.status(401).json({success:false,message:"User not authorized"});

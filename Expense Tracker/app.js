@@ -14,7 +14,7 @@ const Order=require('./models/order');
 const userRoute = require('./routes/login');
 const expenseRoute = require('./routes/expense');
 const orderRoute=require('./routes/purchase');
-
+const premiumRoute=require('./routes/premium');
 
 app.use(cors());
 
@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use('/',userRoute);
 app.use('/',expenseRoute);
 app.use('/',orderRoute);
+app.use('/',premiumRoute);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
