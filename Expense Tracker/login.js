@@ -22,3 +22,7 @@ var email=document.getElementById('email');
         document.body.innerHTML+=`<div class='container'style='color:red'>${err.message}</div>`;
     })
   }
+
+  function forgotPassword() {
+    window.location.href = "./forgotPassword.html"
+}
