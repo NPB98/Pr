@@ -8,11 +8,10 @@ const sequelize = require('./util/database');
 const cors = require('cors');
 
 const User = require('./models/user');
+const Expense = require('./models/expenses');
 const Order=require('./models/order');
 
 const userRoute = require('./routes/login');
-const Expense = require('./models/expenses');
-
 const expenseRoute = require('./routes/expense');
 const orderRoute=require('./routes/purchase');
 

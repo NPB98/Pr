@@ -6,7 +6,7 @@ const jwt=require('jsonwebtoken');
         const token=req.header('Authorization');
         //console.log(token);
         const user=jwt.verify(token,'secretkey');
-        //console.log(userId.userId);
+        console.log(user.userId);
         User.findByPk(user.userId)
         .then((user)=>{
             req.user=user;

@@ -57,15 +57,16 @@ function deleteExpense(expenseId){
 
 document.getElementById('rzp-button1').onclick=async function(e){
     const token=localStorage.getItem('token');
-    const response=await axios.get('https://localhost:4000/premiumMembership',{headers:{'Authorization':token}});
+    console.log(token);
+    const response=await axios.get('http://localhost:4000/premiumMembership',{headers:{'Authorization':token}});
     var options=
     {
         "key": response.data.key_id,
-        "order_id": response.data.order_id,
-        "handler": async function(response){
+        "order_id": response.data.order.id,
+        "handler": async function(res){
             await axios.post('http://localhost:4000/updateTransactionStatus',{
                 order_id: options.order_id,
-                payment_id: response.razorpay_payment_id,
+                payment_id: res.razorpay_payment_id,
             },{headers:{'Authorization':token}})
             alert('You are a premium user now')
         }
@@ -73,8 +74,12 @@ document.getElementById('rzp-button1').onclick=async function(e){
     const rzp1=new Razorpay(options);
     rzp1.open();
     e.preventDefault();
-    rzp1.on('payment.failed',function(response){
+    rzp1.on('payment.failed',async function(response){
         console.log(response);
+        const answer= await axios.post("http://localhost:4000/updateFailedTransactionStatus",{
+            order_id: options.order_id
+        },{headers: {'Authorization' : token}})
+        console.log(answer);
         alert('Something went wrong');
     });
 }
