@@ -17,6 +17,7 @@ function addExpense(e){
         category:cate.value
     }
     const token=localStorage.getItem('token');
+    console.log(token);
     axios.post("http://localhost:4000/addExpenses",obj,{headers:{'Authorization':token}})
     .then((response)=>{
         showExpensesOnScreen(obj);
@@ -88,7 +89,7 @@ function showLeaderboard(){
         leaderboardElem.innerHTML += '<div class="container"><h3> LeaderBoard </h1></div>'
 
         leaderboardArray.data.forEach((userDetails) => {
-            leaderboardElem.innerHTML += `<div class='container'><li>Name - ${userDetails.name} Total Expense-${userDetails.total_cost}</div>`
+            leaderboardElem.innerHTML += `<div class='container'><li>Name - ${userDetails.name} Total Expense-${userDetails.totalExpenses}</div>`
         })
     }
     document.getElementById('premium').appendChild(inputElement)

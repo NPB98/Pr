@@ -1,4 +1,5 @@
 const Expense=require('../models/expenses');
+const User=require('../models/user');
 
 exports.getExpenses=(req,res,next)=>{
     //Expense.findAll({where:{userId:req.user.id}})
@@ -38,7 +39,19 @@ exports.getExpenses=(req,res,next)=>{
      userId:req.user.id
   })
   .then((response)=>{
-      res.status(201).json(response);
+    const totalExpense=Number(req.user.totalExpenses)+Number(amount);
+    console.log(totalExpense);
+    User.update({
+      totalExpenses: totalExpense,
+    },{where:{id:req.user.id}})
+    .then(()=>{
+      res.status(201).json({expense:response})
+    })
+    .catch((err)=>{
+      return res.status(500).json({success:false,error:err})
+    })
   })
-  .catch((err)=> console.log(err));
+  .catch((err)=> {
+    return res.status(500).json({success:false,error:err})
+  });
  };
