@@ -1,6 +1,5 @@
 const Razorpay=require('razorpay');
 const Order = require('../models/order');
-
 const purchasePremium= async(req,res)=>{
     try{
         var rzp= new Razorpay({

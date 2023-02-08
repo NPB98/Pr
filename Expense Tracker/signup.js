@@ -3,6 +3,7 @@ var na=document.getElementById('name');
   var password=document.getElementById('password');
   document.addEventListener("submit",signup);
   
+  
   function signup(e){
           e.preventDefault();
       const signUpDetails = {

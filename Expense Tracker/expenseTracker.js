@@ -8,7 +8,6 @@ var form=document.getElementById('addForm');
 form.addEventListener("submit",addExpense)
 //premium.addEventListener("submit",window.location.href='https://github.com/NPB98/Pr/commits/main');
 
-
 function addExpense(e){
     e.preventDefault();
     const obj = {

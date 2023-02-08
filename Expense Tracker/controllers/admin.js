@@ -1,7 +1,6 @@
 const Expense=require('../models/expenses');
 const User=require('../models/user');
 
-
 exports.getExpenses=(req,res,next)=>{
     //Expense.findAll({where:{userId:req.user.id}})
     req.user.getExpenses().then(expenses => {

@@ -2,6 +2,7 @@ var email=document.getElementById('email');
   var password=document.getElementById('password');
   document.addEventListener("submit",login);
 
+  
   function login(e){
     e.preventDefault();
       const loginDetails = {
