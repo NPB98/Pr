@@ -1,6 +1,7 @@
 const Expense=require('../models/expenses');
 const User=require('../models/user');
 
+
 exports.getExpenses=(req,res,next)=>{
     //Expense.findAll({where:{userId:req.user.id}})
     req.user.getExpenses().then(expenses => {
@@ -9,7 +10,6 @@ exports.getExpenses=(req,res,next)=>{
     })
     .catch(err => console.log(err));
  };
-
  exports.deleteExpense = (req,res,next)=>{
    console.log(req);
     const id = req.params.expenseId;

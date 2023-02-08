@@ -3,6 +3,7 @@ const bcrypt=require('bcrypt');
 const express = require('express');
 const jwt=require('jsonwebtoken');
 
+
 const addUser = (req,res,next)=>{
     const name = req.body.name;
     const email = req.body.email;

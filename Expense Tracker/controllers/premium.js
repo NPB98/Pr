@@ -3,6 +3,7 @@ const Expense=require('../models/expenses');
 const sequelize = require('../util/database');
  exports.getLeaderboard=async(req,res)=>{
     try{
+        
         const leaderboardDetails = await User.findAll({
             //attributes:['id','name',[sequelize.fn('sum',sequelize.col('expenses.amount')),'total_cost']],
             // include:[
