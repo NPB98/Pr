@@ -13,14 +13,17 @@ const getExpenses=async(req,res,next)=>{
     // })
     // .catch(err => console.log(err));
     try{
-     console.log('Request',req);
+     console.log('Request',req.query);
       const page = req.query.page || 1;
-      const expensesPerPage = 10;
+      const rows=req.query.rows;
+      const expensesPerPage = rows;
       const count = await Expense.count();
-    const expenses = await Expense.findAll({
-      offset: (page-1) * Items_Per_Page,
-      limit: 2,
+      //console.log(count);
+    const expenses = await Expense.findAll({where:{userId:req.user.id},
+      offset: (page-1) * expensesPerPage,
+      limit: Number(expensesPerPage),
     });
+    //console.log(expenses);
       res.status(201).json({
          expenses:expenses,
          currentPage: Number(page),

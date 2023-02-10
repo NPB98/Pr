@@ -42,6 +42,13 @@ function parseJwt (token) {
     }).join(''));
     return JSON.parse(jsonPayload);
 }
+function Helper(e){
+    e.preventDefault();
+      const rows = document.getElementById('row');
+      localStorage.setItem('rows',rows.value);
+     console.log(rows.value);
+      getExpense(1);
+  }
 
 window.addEventListener("DOMContentLoaded",(e)=>{
     const token=localStorage.getItem('token');
@@ -51,23 +58,23 @@ window.addEventListener("DOMContentLoaded",(e)=>{
         showPremiumUser();
         showLeaderboard();
     }
-    const page = 1;
-    axios.get(`http://localhost:4000/getExpenses/expense?page=${page}`, { headers: {"Authorization": token}})
-    .then((response)=>{
-        const expenses=response.data;
-        for(let i=0; i<response.data.length; i++){
-            //console.log(response.data[i]);
-            showExpensesOnScreen(response.data[i]);
-           }
-           showPagination(response.data.pageData)
-    })
+    // const page = 1;
+    // axios.get(`http://localhost:4000/getExpenses?page=${page}`, { headers: {"Authorization": token}})
+    // .then((response)=>{
+    //     const expenses=response.data;
+    //     for(let i=0; i<response.data.length; i++){
+    //         //console.log(response.data[i]);
+    //         showExpensesOnScreen(response.data[i]);
+    //        }
+    //        showPagination(response.data.pageData)
+    // })
 //     axios.get("http://localhost:4000/getExpenses",{headers:{'Authorization':token}})
 //     .then((response)=>{
 //    for(let i=0; i<response.data.length; i++){
 //     //console.log(response.data[i]);
 //     showExpensesOnScreen(response.data[i]);
 //    }
-   .catch((err)=> console.log(err))
+   //.catch((err)=> console.log(err))
    console.log('downloads');
    axios.get("http://localhost:4000/getDownloads", { headers: {"Authorization": token}})
      .then((downloads)=>{
@@ -82,8 +89,23 @@ window.addEventListener("DOMContentLoaded",(e)=>{
     console.log(err);
 })
 })
+async function getExpense(page){
+    const token = localStorage.getItem('token');
+    const rows = localStorage.getItem('rows');
+    //console.log(rows);
+   const Expenses =  await axios.get(`http://localhost:4000/getExpenses?page=${page}&rows=${rows}`,{ headers: {"Authorization": token}});
+   console.log(Expenses);
+   const expenses= Expenses.data.expenses;
+   console.log(expenses.length);
+   for(let i=0; i<expenses.length; i++){
+        showExpensesOnScreen(expenses[i]);
+     }
+     console.log(Expenses.data);
+     showPagination(Expenses.data);
+ }
 
 function showPagination(response){
+    console.log('Response',response);
     const currentPage = response.currentPage;
     const hasNextPage = response.hasNextPage;
     const nextPage = response.nextPage;
@@ -95,24 +117,24 @@ function showPagination(response){
   if(hasPreviousPage){
     const btn2 = document.createElement('button');
     btn2.innerHTML = previousPage;
-    btn2.addEventListener('click', ()=> getExpenses(previousPage));
+    btn2.addEventListener('click', ()=> getExpense(previousPage));
     pagination.appendChild(btn2);
   }
   const btn1 = document.createElement('button');
   btn1.innerHTML = `<h3>${currentPage}</h3>`;
-  btn1.addEventListener('click', ()=> getExpenses(currentPage));
+  btn1.addEventListener('click', ()=> getExpense(currentPage));
   pagination.appendChild(btn1);
   if(hasNextPage){
     const btn3 = document.createElement('button');
     btn3.innerHTML = nextPage;
-    btn3.addEventListener('click', ()=> getExpenses(nextPage));
+    btn3.addEventListener('click', ()=> getExpense(nextPage));
     pagination.appendChild(btn3);
   }
  }
   
 function showExpensesOnScreen(item){
     const parentNode= document.getElementById('items');
-    console.log(parentNode);
+    //console.log(parentNode);
     const childHTML = `<li id=${item.id}> Expense Amount: ${item.amount}, Category: ${item.category}, Description: ${item.description}
                         <button onclick=deleteExpense('${item.id}')>Delete</button>
                         </li>`;

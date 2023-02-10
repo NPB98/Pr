@@ -35,7 +35,13 @@
   </div>
   <div class="container" id="downloadFacility"></div>
   <div class="container" ><ul id="getDownloads"></ul></div>
-  <div class="container" id="pagination"></div>
+  <div class="container" id="pagination">
+  <p>Expenses Per Page</p>
+          <form onsubmit="Helper(event)">
+          <input type="text" name="row" id="row">
+          <input type="submit" value="Enter rows per page">
+          </form>
+        </div>
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src ="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
   <script src="expenseTracker.js"></script>
