@@ -51,13 +51,22 @@ window.addEventListener("DOMContentLoaded",(e)=>{
         showPremiumUser();
         showLeaderboard();
     }
-    axios.get("http://localhost:4000/getExpenses",{headers:{'Authorization':token}})
+    const page = 1;
+    axios.get(`http://localhost:4000/getExpenses/expense?page=${page}`, { headers: {"Authorization": token}})
     .then((response)=>{
-   for(let i=0; i<response.data.length; i++){
-    //console.log(response.data[i]);
-    showExpensesOnScreen(response.data[i]);
-   }
-   })
+        const expenses=response.data;
+        for(let i=0; i<response.data.length; i++){
+            //console.log(response.data[i]);
+            showExpensesOnScreen(response.data[i]);
+           }
+           showPagination(response.data.pageData)
+    })
+//     axios.get("http://localhost:4000/getExpenses",{headers:{'Authorization':token}})
+//     .then((response)=>{
+//    for(let i=0; i<response.data.length; i++){
+//     //console.log(response.data[i]);
+//     showExpensesOnScreen(response.data[i]);
+//    }
    .catch((err)=> console.log(err))
    console.log('downloads');
    axios.get("http://localhost:4000/getDownloads", { headers: {"Authorization": token}})
@@ -74,6 +83,33 @@ window.addEventListener("DOMContentLoaded",(e)=>{
 })
 })
 
+function showPagination(response){
+    const currentPage = response.currentPage;
+    const hasNextPage = response.hasNextPage;
+    const nextPage = response.nextPage;
+    const hasPreviousPage = response.hasPreviousPage;
+    const previousPage = response.previousPage;
+    const lastPage = response.lastPage;
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = " ";
+  if(hasPreviousPage){
+    const btn2 = document.createElement('button');
+    btn2.innerHTML = previousPage;
+    btn2.addEventListener('click', ()=> getExpenses(previousPage));
+    pagination.appendChild(btn2);
+  }
+  const btn1 = document.createElement('button');
+  btn1.innerHTML = `<h3>${currentPage}</h3>`;
+  btn1.addEventListener('click', ()=> getExpenses(currentPage));
+  pagination.appendChild(btn1);
+  if(hasNextPage){
+    const btn3 = document.createElement('button');
+    btn3.innerHTML = nextPage;
+    btn3.addEventListener('click', ()=> getExpenses(nextPage));
+    pagination.appendChild(btn3);
+  }
+ }
+  
 function showExpensesOnScreen(item){
     const parentNode= document.getElementById('items');
     console.log(parentNode);

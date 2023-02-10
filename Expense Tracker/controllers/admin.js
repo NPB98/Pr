@@ -5,13 +5,35 @@ const UserServices=require('../services/userServices');
 const S3Services=require('../services/S3services.js');
 const DownloadedFiles=require('../models/downloadedFiles')
 
-const getExpenses=(req,res,next)=>{
+const getExpenses=async(req,res,next)=>{
     //Expense.findAll({where:{userId:req.user.id}})
-    req.user.getExpenses().then(expenses => {
-      console.log(expenses);
-       res.status(200).json(expenses);
-    })
-    .catch(err => console.log(err));
+    // req.user.getExpenses().then(expenses => {
+    //   console.log(expenses);
+    //    res.status(200).json(expenses);
+    // })
+    // .catch(err => console.log(err));
+    try{
+     console.log('Request',req);
+      const page = req.query.page || 1;
+      const expensesPerPage = 10;
+      const count = await Expense.count();
+    const expenses = await Expense.findAll({
+      offset: (page-1) * Items_Per_Page,
+      limit: 2,
+    });
+      res.status(201).json({
+         expenses:expenses,
+         currentPage: Number(page),
+         hasNextPage:  expensesPerPage*page < count,
+         nextPage:Number(page)+1,
+         hasPreviousPage:Number(page)>1,
+         previousPage:Number(page)-1,
+         lastPage:Math.ceil(count/expensesPerPage)
+      }); 
+   }
+  catch(err){
+      res.status(404).json(err);
+  }
  };
  const deleteExpense = (req,res,next)=>{
    console.log(req);
@@ -82,7 +104,7 @@ const getExpenses=(req,res,next)=>{
  const getDownloads=async(req,res,next)=>{
   //console.log('DOWNLOADS',req.user.id);
   DownloadedFiles.findAll({where:{userId:req.user.id}}).then((downloads)=>{
-    console.log('DOWNLOADS',downloads);
+    //console.log('DOWNLOADS',downloads);
     res.status(200).json(downloads);
   }).catch((err)=>console.log(err))
   //console.log(req.user);
