@@ -10,12 +10,14 @@ const cors = require('cors');
 const User = require('./models/user');
 const Expense = require('./models/expenses');
 const Order=require('./models/order');
+const DownloadedFiles = require('./models/downloadedFiles');
 
 const userRoute = require('./routes/login');
 const expenseRoute = require('./routes/expense');
 const orderRoute=require('./routes/purchase');
 const premiumRoute=require('./routes/premium');
 const forgotPasswordRoute = require('./routes/forgotPassword');
+
 
 app.use(cors());
 
@@ -33,6 +35,9 @@ Expense.belongsTo(User);
 
 User.hasMany(Order);
 Order.belongsTo(User);
+
+User.hasMany(DownloadedFiles);
+DownloadedFiles.belongsTo(User);
 
 sequelize.sync()
 .then(result => app.listen(4000))

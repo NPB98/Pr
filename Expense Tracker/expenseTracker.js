@@ -8,6 +8,7 @@ var form=document.getElementById('addForm');
 form.addEventListener("submit",addExpense)
 //premium.addEventListener("submit",window.location.href='https://github.com/NPB98/Pr/commits/main');
 
+
 function addExpense(e){
     e.preventDefault();
     const obj = {
@@ -26,6 +27,11 @@ function addExpense(e){
 function showPremiumUser(){
     document.getElementById('rzp-button1').style.visibility='hidden';
     document.getElementById('premium').innerHTML = 'You are premium user' ;
+    const downloadFacility=document.getElementById("downloadFacility");
+    const childNode=`<div class="container">
+    <button onclick="download()" id="downloadOption">Download File</button>
+  </div>`
+  downloadFacility.innerHTML+=childNode;
 }
 
 function parseJwt (token) {
@@ -53,11 +59,24 @@ window.addEventListener("DOMContentLoaded",(e)=>{
    }
    })
    .catch((err)=> console.log(err))
+   console.log('downloads');
+   axios.get("http://localhost:4000/getDownloads", { headers: {"Authorization": token}})
+     .then((downloads)=>{
+        //console.log('DOWNloads',downloads);
+    const listItem = document.getElementById("getDownloads");
+    //console.log('List item',listItem);
+    for(let i=0; i<downloads.data.length; i++){
+        //console.log('Innerhtml',listItem.innerHTML);
+      listItem.innerHTML += `<li>${downloads.data[i].download}</li>`
+    }
+}).catch((err)=>{
+    console.log(err);
+})
 })
 
 function showExpensesOnScreen(item){
     const parentNode= document.getElementById('items');
-    //console.log(item.id);
+    console.log(parentNode);
     const childHTML = `<li id=${item.id}> Expense Amount: ${item.amount}, Category: ${item.category}, Description: ${item.description}
                         <button onclick=deleteExpense('${item.id}')>Delete</button>
                         </li>`;
@@ -76,6 +95,27 @@ function deleteExpense(expenseId){
         }
     }).catch((err)=>console.log(err));
 }
+
+function download(){
+    const token = localStorage.getItem('token');
+    axios.get("http://localhost:4000/download",{ headers: {"Authorization": token}})
+    .then((response)=>{
+        //console.log(response.data.fileUrl);
+        //console.log(response.status);
+      if(response.status === 200){
+        let a = document.createElement('a');
+        a.href = response.data.fileUrl;
+        //console.log(a);
+        a.download = 'myexpense.csv';
+        a.click();
+      }else{
+         throw new Error(response.data.message);
+      }
+    })
+    .catch((err)=>{
+        document.body.innerHTML += `<div class="container"style="color:red;"> ${err}</div>`
+    })
+ }
 
 function showLeaderboard(){
     const inputElement = document.createElement('input');
