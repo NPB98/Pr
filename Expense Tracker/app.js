@@ -52,6 +52,7 @@ ForgotPassword.belongsTo(User);
 User.hasMany(DownloadedFiles);
 DownloadedFiles.belongsTo(User);
 
+
 sequelize.sync()
 .then(result =>app.listen(4000))
 .catch(err => console.log(err));
