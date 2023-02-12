@@ -3,20 +3,24 @@ const app = express();
 const helmet=require('helmet');
 const morgan=require('morgan');
 const fs=require('fs');
+const path=require('path');
+const dotenv=require('dotenv');
+dotenv.config();
 
 const bodyParser = require('body-parser');
 
 const sequelize = require('./util/database');
 
 const cors = require('cors');
-const accessLogStream=fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'});
+//const accessLogStream=fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'});
 app.use(helmet());
-app.use(morgan('combined'),{stream:accessLogStream});
+//app.use(morgan('combined'),{stream:accessLogStream});
 
 const User = require('./models/user');
 const Expense = require('./models/expenses');
 const Order=require('./models/order');
 const DownloadedFiles = require('./models/downloadedFiles');
+const ForgotPassword =require('./models/forgotPassword');
 
 const userRoute = require('./routes/login');
 const expenseRoute = require('./routes/expense');
@@ -42,9 +46,12 @@ Expense.belongsTo(User);
 User.hasMany(Order);
 Order.belongsTo(User);
 
+User.hasMany(ForgotPassword);
+ForgotPassword.belongsTo(User);
+
 User.hasMany(DownloadedFiles);
 DownloadedFiles.belongsTo(User);
 
 sequelize.sync()
-.then(result => app.listen(4000))
+.then(result =>app.listen(4000))
 .catch(err => console.log(err));
